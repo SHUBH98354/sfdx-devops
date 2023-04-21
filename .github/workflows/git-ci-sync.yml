@@ -18,6 +18,6 @@ jobs:
       # BASE_BRANCH: master
       DEPLOYMENT_ENVIRONMENT: development
     secrets:
-      # SECRET_URL_PATH: ${{secrets.CLOUDK_SECRET_URL}}
+      SECRET_URL_PATH: ${{secrets.SECRET_URL_PATH}}
       DOCKER_HUB_UN: ${{secrets.DOCKER_HUB_USERNAME}}
       DOCKER_HUB_PASS: ${{secrets.DOCKER_HUB_PASSWORD}}
