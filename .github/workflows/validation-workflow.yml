@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.DEPLOYMENT_ENVIRONMENT }}
     env:
-      SECRET_URL_PATH: ${{ vars.SECRET_URL_PATH }}
+      SECRET_URL_PATH: ${{ secret.SECRET_URL_PATH }}
       SOURCE_ORG_ALIAS: ${{ vars.SOURCE_ORG_ALIAS }}
       BASE_BRANCH: ${{ vars.BASE_BRANCH }}
       PRODUCTION_DOMAIN: ${{ vars.PROD_DOMAIN }}
