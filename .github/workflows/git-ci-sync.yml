@@ -14,10 +14,10 @@ jobs:
     # Utilizing the dynamic yml file for reusability
     uses: ./.github/workflows/validation-workflow.yml
     with:
-      SOURCE_ORG_ALIAS: CI
-      BASE_BRANCH: master
+      # SOURCE_ORG_ALIAS: CI
+      # BASE_BRANCH: master
       DEPLOYMENT_ENVIRONMENT: development
     secrets:
-      SECRET_URL_PATH: ${{secrets.CLOUDK_SECRET_URL}}
+      # SECRET_URL_PATH: ${{secrets.CLOUDK_SECRET_URL}}
       DOCKER_HUB_UN: ${{secrets.DOCKER_HUB_USERNAME}}
       DOCKER_HUB_PASS: ${{secrets.DOCKER_HUB_PASSWORD}}
