@@ -14,8 +14,6 @@ jobs:
     # Utilizing the dynamic yml file for reusability
     uses: ./.github/workflows/validation-workflow.yml
     with:
-      # SOURCE_ORG_ALIAS: CI
-      # BASE_BRANCH: master
       DEPLOYMENT_ENVIRONMENT: development
     secrets:
       SECRET_URL_PATH: ${{secrets.SECRET_URL_PATH}}

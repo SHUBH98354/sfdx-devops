@@ -4,12 +4,6 @@ on:
   # This workflow will be triggered when invoked from parent workflow
   workflow_call:
     inputs:
-      # SOURCE_ORG_ALIAS:
-      #   required: true
-      #   type: string
-      # BASE_BRANCH:
-      #   required: true
-      #   type: string
       DEPLOYMENT_ENVIRONMENT:
         required: true
         type: string
@@ -20,11 +14,9 @@ on:
         required: true
       DOCKER_HUB_PASS:
         required: true
-      # PROD_DOMAIN:
-      #   required: false
 jobs:
   deploy:
-    name: ${{ inputs.SOURCE_ORG_ALIAS }}
+    name: ${{ vars.SOURCE_ORG_ALIAS }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.DEPLOYMENT_ENVIRONMENT }}
     env:
@@ -47,13 +39,14 @@ jobs:
 
       # Authenticate The Org and 
       - name: Generate Auth File And Authenticate
-        run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
-        # run: |
-        #   echo $DOCKER_HUB_PASSWORD
-        #   echo $SECRET_URL_PATH
-        #   echo $SOURCE_ORG_ALIAS
-        #   echo $BASE_BRANCH
-        #   echo $PRODUCTION_DOMAIN
+        # run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        run: |
+          echo $DOCKER_HUB_PASSWORD
+          echo $SECRET_URL_PATH
+          echo $SOURCE_ORG_ALIAS
+          echo $BASE_BRANCH
+          echo $PRODUCTION_DOMAIN
+          chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
 
         shell: bash
 
