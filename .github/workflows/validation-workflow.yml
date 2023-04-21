@@ -1,0 +1,75 @@
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+name: PR Validation
+on:
+  # This workflow will be triggered when invoked from parent workflow
+  workflow_call:
+    inputs:
+      SOURCE_ORG_ALIAS:
+        required: true
+        type: string
+      BASE_BRANCH:
+        required: true
+        type: string
+    secrets:
+      SECRET_URL_PATH:
+        required: true
+      DOCKER_HUB_UN:
+        required: true
+      DOCKER_HUB_PASS:
+        required: true
+      PROD_DOMAIN:
+        required: false
+jobs:
+  deploy:
+    name: ${{ inputs.SOURCE_ORG_ALIAS }}
+    runs-on: ubuntu-latest
+    env:
+      SECRET_URL_PATH: ${{ secrets.SECRET_URL_PATH }}
+      SOURCE_ORG_ALIAS: ${{ inputs.SOURCE_ORG_ALIAS }}
+      BASE_BRANCH: ${{ inputs.BASE_BRANCH }}
+      PRODUCTION_DOMAIN: ${{ secrets.PROD_DOMAIN }}
+      SFDX_DISABLE_DNS_CHECK: true
+    container:
+      image: bridgepointfinancials/sfdx-cli
+      credentials:
+        username: ${{ secrets.DOCKER_HUB_UN }}
+        password: ${{ secrets.DOCKER_HUB_PASS }}
+    #Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Authenticate The Org and 
+      - name: Generate Auth File And Authenticate
+        run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        shell: bash
+
+      # Generate Delta Package
+      - name: Generate Delta Packages
+        run: chmod +x ./.github/scripts/generatedeltapkg.sh && ./.github/scripts/generatedeltapkg.sh
+        
+      # Generate Test Classes
+      - name: Test Classes Generation
+        run: chmod +x ./.github/scripts/generatetestclass.sh && bash .github/scripts/generatetestclass.sh
+
+      # Instantiate PMD Check for the components
+      - name: PMD Validation
+        run: chmod +x ./.github/scripts/scanner.sh && ./.github/scripts/scanner.sh
+        if: ${{ env.SOURCE_ORG_ALIAS == 'CI' }}
+      
+      # Validate the components against CI Org
+      - name: Validating Of Package
+        run: chmod +x ./.github/scripts/validateComponents.sh && ./.github/scripts/validateComponents.sh
+        shell: bash
+
+      # Quick Deploy if validation is success
+      - name: Quick Deployment
+        run: chmod +x ./.github/scripts/quickdeploy.sh && ./.github/scripts/quickdeploy.sh
+        shell: bash
+        if: ${{ env.SOURCE_ORG_ALIAS != 'CI' }}
+      
+      # Metadata Components Deploy
+      - name: Data Migration
+        run: chmod +x ./.github/scripts/sfdmu.sh && ./.github/scripts/sfdmu.sh
+        if: ${{ env.SOURCE_ORG_ALIAS != 'CI' }}

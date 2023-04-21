@@ -1,0 +1,9 @@
+{
+    "objects": [
+        {
+            "query" : "SELECT Id, Name, clcommon__External_ID__c, clcommon__Related_Business_Entity__c, clcommon__Related_Individual__c FROM clcommon__Party_Type__c ORDER BY createdDate",
+            "operation" : "Upsert",
+            "externalId" : "Name"
+        }
+    ]
+}
