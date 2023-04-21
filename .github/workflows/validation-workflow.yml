@@ -46,7 +46,13 @@ jobs:
 
       # Authenticate The Org and 
       - name: Generate Auth File And Authenticate
-        run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        # run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        run: |
+          echo $SECRET_URL_PATH
+          echo $SOURCE_ORG_ALIAS
+          echo $BASE_BRANCH
+          echo $PRODUCTION_DOMAIN
+
         shell: bash
 
       # Generate Delta Package
