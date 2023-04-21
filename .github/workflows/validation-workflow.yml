@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.DEPLOYMENT_ENVIRONMENT }}
     env:
-      SECRET_URL_PATH: '${{ secrets.SECRET_URL_PATH }}'
+      SECRET_URL_PATH: ${{ secrets.SECRET_URL_PATH }}
       SOURCE_ORG_ALIAS: ${{ vars.SOURCE_ORG_ALIAS }}
       BASE_BRANCH: ${{ vars.BASE_BRANCH }}
       PRODUCTION_DOMAIN: ${{ vars.PROD_DOMAIN }}
@@ -47,13 +47,13 @@ jobs:
 
       # Authenticate The Org and 
       - name: Generate Auth File And Authenticate
-        # run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
-        run: |
-          echo $DOCKER_HUB_PASSWORD
-          echo $SECRET_URL_PATH
-          echo $SOURCE_ORG_ALIAS
-          echo $BASE_BRANCH
-          echo $PRODUCTION_DOMAIN
+        run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        # run: |
+        #   echo $DOCKER_HUB_PASSWORD
+        #   echo $SECRET_URL_PATH
+        #   echo $SOURCE_ORG_ALIAS
+        #   echo $BASE_BRANCH
+        #   echo $PRODUCTION_DOMAIN
 
         shell: bash
 
