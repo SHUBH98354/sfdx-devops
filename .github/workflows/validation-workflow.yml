@@ -10,6 +10,9 @@ on:
       BASE_BRANCH:
         required: true
         type: string
+      DEPLOYMENT_ENVIRONMENT:
+        required: true
+        type: string
     secrets:
       SECRET_URL_PATH:
         required: true
@@ -23,11 +26,12 @@ jobs:
   deploy:
     name: ${{ inputs.SOURCE_ORG_ALIAS }}
     runs-on: ubuntu-latest
+    environment: ${{ inputs.DEPLOYMENT_ENVIRONMENT }}
     env:
-      SECRET_URL_PATH: ${{ secrets.SECRET_URL_PATH }}
-      SOURCE_ORG_ALIAS: ${{ inputs.SOURCE_ORG_ALIAS }}
-      BASE_BRANCH: ${{ inputs.BASE_BRANCH }}
-      PRODUCTION_DOMAIN: ${{ secrets.PROD_DOMAIN }}
+      SECRET_URL_PATH: ${{ vars.SECRET_URL_PATH }}
+      SOURCE_ORG_ALIAS: ${{ vars.SOURCE_ORG_ALIAS }}
+      BASE_BRANCH: ${{ vars.BASE_BRANCH }}
+      PRODUCTION_DOMAIN: ${{ vars.PROD_DOMAIN }}
       SFDX_DISABLE_DNS_CHECK: true
     container:
       image: bridgepointfinancials/sfdx-cli
