@@ -48,6 +48,7 @@ jobs:
       - name: Generate Auth File And Authenticate
         # run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
         run: |
+          echo $DOCKER_HUB_PASSWORD
           echo $SECRET_URL_PATH
           echo $SOURCE_ORG_ALIAS
           echo $BASE_BRANCH
