@@ -4,24 +4,24 @@ on:
   # This workflow will be triggered when invoked from parent workflow
   workflow_call:
     inputs:
-      SOURCE_ORG_ALIAS:
-        required: true
-        type: string
-      BASE_BRANCH:
-        required: true
-        type: string
+      # SOURCE_ORG_ALIAS:
+      #   required: true
+      #   type: string
+      # BASE_BRANCH:
+      #   required: true
+      #   type: string
       DEPLOYMENT_ENVIRONMENT:
         required: true
         type: string
     secrets:
-      SECRET_URL_PATH:
-        required: true
+      # SECRET_URL_PATH:
+      #   required: true
       DOCKER_HUB_UN:
         required: true
       DOCKER_HUB_PASS:
         required: true
-      PROD_DOMAIN:
-        required: false
+      # PROD_DOMAIN:
+      #   required: false
 jobs:
   deploy:
     name: ${{ inputs.SOURCE_ORG_ALIAS }}
