@@ -34,7 +34,8 @@ jobs:
       PRODUCTION_DOMAIN: ${{ vars.PROD_DOMAIN }}
       SFDX_DISABLE_DNS_CHECK: true
     container:
-      image: bridgepointfinancials/sfdx-cli
+      # image: bridgepointfinancials/sfdx-cli
+      image : ${{ vars.DOCKER_REPO_PATH }}
       credentials:
         username: ${{ secrets.DOCKER_HUB_UN }}
         password: ${{ secrets.DOCKER_HUB_PASS }}
