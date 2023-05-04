@@ -46,6 +46,7 @@ jobs:
           echo $SOURCE_ORG_ALIAS
           echo $BASE_BRANCH
           echo $PRODUCTION_DOMAIN
+
           chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
 
         shell: bash
