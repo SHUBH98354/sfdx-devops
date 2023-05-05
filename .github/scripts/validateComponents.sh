@@ -2,7 +2,7 @@ echo "Delta Check-Only"
 # Checking if any metadata changes are in package.xml
 if grep -q '<types>' changed-sources/package/package.xml;
 then
-    RESP = ${sf project deploy start -a 54.0 -o $SOURCE_ORG_ALIAS -x changed-sources/package/package.xml -l RunSpecifiedTests -t $(cat ./testclass/testclass.txt) --verbose --dry-run --async} | tee ./DEPLOY_ORG.txt
+    RESP = $(sf project deploy start -a 54.0 -o $SOURCE_ORG_ALIAS -x changed-sources/package/package.xml -l RunSpecifiedTests -t $(cat ./testclass/testclass.txt) --verbose --dry-run --async) | tee ./DEPLOY_ORG.txt
     echo "RESULT ===$RESP"
     jobs -l
     # <%= config.bin %> project deploy resume
