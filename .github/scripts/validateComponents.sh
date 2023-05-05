@@ -4,6 +4,7 @@ if grep -q '<types>' changed-sources/package/package.xml;
 then
     RESP = $( sf project deploy start -a 54.0 -o $SOURCE_ORG_ALIAS -x changed-sources/package/package.xml -l RunSpecifiedTests -t $(cat ./testclass/testclass.txt) --verbose --dry-run --async ) | tee ./DEPLOY_ORG.txt
     echo "RESULT ===$RESP"
+    <%= config.bin %> project deploy resume
     # sfdx force:source:deploy -c -u $SOURCE_ORG_ALIAS -x package/package.xml -l RunSpecifiedTests -r $(cat ./testclass/testclass.txt) --verbose | tee ./DEPLOY_ORG.txt
     DEPLOY_EXIT_CODE=${PIPESTATUS[0]}
     if [ $DEPLOY_EXIT_CODE != 0 ]
