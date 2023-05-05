@@ -2,7 +2,8 @@ export HOME=/root
 git config --global --add safe.directory '*'
 git fetch origin "+refs/heads/*:refs/remotes/origin/*"
 sf sgd:source:delta --help
-sf sgd:source:delta -a 53 --to HEAD --from origin/$BASE_BRANCH --output . -i manifest/mdapi/.sgdignore --generate-delta
+sf sgd:source:delta -a 53 --to HEAD --from origin/$BASE_BRANCH --output changed-sources/ -i manifest/mdapi/.sgdignore --generate-delta
+cd changed-sources
 ls
 echo "--- package.xml generated with added and modified metadata since $LAST_DEPLOYED_COMMIT in Master ---"
 cat package/package.xml
