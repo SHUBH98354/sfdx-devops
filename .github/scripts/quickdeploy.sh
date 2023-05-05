@@ -7,7 +7,8 @@ then
         echo $DEPLOYMENT_STRING
         FINAL_DEPLOY_ID=${DEPLOYMENT_STRING:0:18}
         echo $FINAL_DEPLOY_ID
-        sfdx force:source:deploy -q $FINAL_DEPLOY_ID -u $SOURCE_ORG_ALIAS
+        sf project deploy quick -i $FINAL_DEPLOY_ID -o $SOURCE_ORG_ALIAS
+        # sfdx force:source:deploy -q $FINAL_DEPLOY_ID -u $SOURCE_ORG_ALIAS
     else
         sfdx force:source:deploy -u $SOURCE_ORG_ALIAS -x package/package.xml
     fi
