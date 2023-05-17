@@ -1,5 +1,6 @@
 echo "Delta Check-Only"
 # Checking if any metadata changes are in package.xml
+cat testclass/testclass.txt
 if grep -q '<types>' changed-sources/package/package.xml;
 then
     # Initiating async deployment.
