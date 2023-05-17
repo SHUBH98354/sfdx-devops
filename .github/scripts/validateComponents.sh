@@ -2,11 +2,19 @@ echo "Delta Check-Only"
 # Checking if any metadata changes are in package.xml
 if grep -q '<types>' changed-sources/package/package.xml;
 then
-    RESP=$(sf project deploy start -a 54.0 -o $SOURCE_ORG_ALIAS -x changed-sources/package/package.xml -l RunSpecifiedTests -t $(cat ./testclass/testclass.txt) --verbose --dry-run --async) | tee ./DEPLOY_ORG.txt
-    echo "RESULT ===$RESP"
-    jobs -l
-    # <%= config.bin %> project deploy resume
-    # sfdx force:source:deploy -c -u $SOURCE_ORG_ALIAS -x package/package.xml -l RunSpecifiedTests -r $(cat ./testclass/testclass.txt) --verbose | tee ./DEPLOY_ORG.txt
+    # Initiating async deployment.
+    sf project deploy start -o $SOURCE_ORG_ALIAS -x changed-sources/package/package.xml -l RunSpecifiedTests -t $(cat ./testclass/testclass.txt) --verbose --dry-run --async | tee ./DEPLOY_ORG.txt
+    
+    # Fetching Deploy Id from the output.
+    VALIDATION_OUTPUT=$(cat ./DEPLOY_ORG.txt) 
+    DEPLOYMENT_STRING=${VALIDATION_OUTPUT#*Deploy ID: }
+    echo $DEPLOYMENT_STRING
+    FINAL_DEPLOY_ID=${DEPLOYMENT_STRING:0:18}
+    echo $FINAL_DEPLOY_ID
+
+    # Watch the deployment for validation.
+    sf project deploy resume --job-id $FINAL_DEPLOY_ID --coverage-formatters cobertura --junit --results-dir "pipeline-artifacts" --verbose
+
     DEPLOY_EXIT_CODE=${PIPESTATUS[0]}
     if [ $DEPLOY_EXIT_CODE != 0 ]
     then
