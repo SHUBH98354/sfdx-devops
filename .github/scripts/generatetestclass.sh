@@ -39,4 +39,4 @@ do
 done
 
 # Posting the csv to the txt file so that they can be utilized in the deployment.
-echo ${testclass#*,} > testclass/testclass.txt
+echo ${testclass#* } > testclass/testclass.txt
