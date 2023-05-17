@@ -30,10 +30,10 @@ do
         # Fetching the Key value pair from the rows of CSV.
         value=${row#*,}
         key=${row%,*}
-        if [[ $key == $className && ( $testclass != *",$value,"* || $testclass != *",$value"* || $testclass != *"$value,"* ) ]]
+        if [[ $key == $className && ( $testclass != *" $value "* || $testclass != *" $value"* || $testclass != *"$value "* ) ]]
         then
             echo $key" || ======> || "$value
-            testclass+=",$value"
+            testclass+=" $value"
         fi
     done
 done
