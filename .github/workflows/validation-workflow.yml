@@ -4,10 +4,7 @@ on:
   # This workflow will be triggered when invoked from parent workflow
   workflow_call:
     inputs:
-      SOURCE_ORG_ALIAS:
-        required: true
-        type: string
-      BASE_BRANCH:
+      DEPLOYMENT_ENVIRONMENT:
         required: true
         type: string
     secrets:
@@ -17,20 +14,20 @@ on:
         required: true
       DOCKER_HUB_PASS:
         required: true
-      PROD_DOMAIN:
-        required: false
 jobs:
   deploy:
-    name: ${{ inputs.SOURCE_ORG_ALIAS }}
+    name: ${{ vars.SOURCE_ORG_ALIAS }}
     runs-on: ubuntu-latest
+    environment: ${{ inputs.DEPLOYMENT_ENVIRONMENT }}
     env:
       SECRET_URL_PATH: ${{ secrets.SECRET_URL_PATH }}
-      SOURCE_ORG_ALIAS: ${{ inputs.SOURCE_ORG_ALIAS }}
-      BASE_BRANCH: ${{ inputs.BASE_BRANCH }}
-      PRODUCTION_DOMAIN: ${{ secrets.PROD_DOMAIN }}
+      SOURCE_ORG_ALIAS: ${{ vars.SOURCE_ORG_ALIAS }}
+      BASE_BRANCH: ${{ vars.BASE_BRANCH }}
+      PRODUCTION_DOMAIN: ${{ vars.PROD_DOMAIN }}
       SFDX_DISABLE_DNS_CHECK: true
     container:
-      image: bridgepointfinancials/sfdx-cli
+      # image: bridgepointfinancials/sfdx-cli
+      image : ${{ vars.DOCKER_REPO_PATH }}
       credentials:
         username: ${{ secrets.DOCKER_HUB_UN }}
         password: ${{ secrets.DOCKER_HUB_PASS }}
@@ -42,7 +39,16 @@ jobs:
 
       # Authenticate The Org and 
       - name: Generate Auth File And Authenticate
-        run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        # run:  chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+        run: |
+          echo $DOCKER_HUB_PASSWORD
+          echo $SECRET_URL_PATH
+          echo $SOURCE_ORG_ALIAS
+          echo $BASE_BRANCH
+          echo $PRODUCTION_DOMAIN
+
+          chmod +x ./.github/scripts/authenticateorg.sh && ./.github/scripts/authenticateorg.sh
+
         shell: bash
 
       # Generate Delta Package
